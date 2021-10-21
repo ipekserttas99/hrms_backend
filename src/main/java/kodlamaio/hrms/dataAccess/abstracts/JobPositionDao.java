@@ -10,7 +10,7 @@ import kodlamaio.hrms.entities.concretes.JobPosition;
 public interface JobPositionDao extends JpaRepository<JobPosition, Integer>{
 	JobPosition getByPozisyonAd(String pozisyonAd);
 	JobPosition getByPozisyonTanım(String pozisyonTanım);
-	JobPosition getByŞehir(String sehir);
+	JobPosition getBySehir(String sehir);
 	JobPosition getByMaaş(String maaş);
 	JobPosition getByYayınTarihi(Date yayınTarihi);
 	JobPosition getBySonBaşvuruTarihi(Date sonBaşvuruTarihi);

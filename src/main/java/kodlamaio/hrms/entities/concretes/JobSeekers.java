@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,8 +30,9 @@ public class JobSeekers {
 	@Column(name="DoğumYılı")
 	private String dogumYılı;
 	
-	@OneToOne()
-	@JoinColumn(name= "Id")
+	@OneToOne
+    @MapsId
+    @JoinColumn(name = "UserId")
 	private User user;
 	
 	public JobSeekers(String ad, String soyad, String tcNo, String dogumYılı, User user) {

@@ -1,5 +1,6 @@
 package kodlamaio.hrms.entities.concretes;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,8 +28,8 @@ public class SocialMedias {
 	@Column(name="LinkedinLink")
 	private String linkedinLink;
 	
-	@OneToOne()
-	@JoinColumn(name= "Id")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="UserId", referencedColumnName = "Id")
 	private User user;
 
 	public SocialMedias() {

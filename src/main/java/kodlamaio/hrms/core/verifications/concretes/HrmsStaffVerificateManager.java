@@ -23,7 +23,7 @@ public class HrmsStaffVerificateManager implements HrmsStaffVerificateService{
 	
 	@Override
 	public Result approve(Employers employers) {
-		this.employersDao.getByŞirketAdıOrUser_Id(employers.getSirketAdı(), employers.getUser().getId());
+		this.employersDao.getBySirketAdıOrUser_Id(employers.getSirketAdı(), employers.getUser().getId());
 		return new SuccessResult("iş veren doğrulandı");
 	}
 

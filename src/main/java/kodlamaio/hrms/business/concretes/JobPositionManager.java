@@ -67,7 +67,7 @@ public class JobPositionManager implements JobPositionService{
 	@Override
 	public DataResult<JobPosition> getByŞehir(String sehir) {
 		return new SuccessDataResult<JobPosition>
-		(this.jobPositionDao.getByŞehir(sehir));
+		(this.jobPositionDao.getBySehir(sehir));
 	}
 
 	@Override

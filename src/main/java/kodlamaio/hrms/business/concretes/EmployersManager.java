@@ -61,21 +61,21 @@ public class EmployersManager implements EmployersService{
 	@Override
 	public DataResult<Employers> getByŞirketAdıAndWebSitesi(String sirketAdı, String webSitesi) {
 		return new SuccessDataResult<Employers>
-		(this.employersDao.getByŞirketAdıAndWebSitesi(sirketAdı, webSitesi));
+		(this.employersDao.getBySirketAdıAndWebSitesi(sirketAdı, webSitesi));
 	}
 
 
 	@Override
 	public DataResult<Employers> getByŞirketAdıOrUser_Id(String sirketAdı, int id) {
 		return new SuccessDataResult<Employers>
-		(this.employersDao.getByŞirketAdıOrUser_Id(sirketAdı, id));
+		(this.employersDao.getBySirketAdıOrUser_Id(sirketAdı, id));
 	}
 
 
 	@Override
 	public DataResult<List<Employers>> GetByŞirketAdıAndUser(String sirketAdı, int id) {
 		return new SuccessDataResult<List<Employers>>
-		(this.employersDao.GetByŞirketAdıAndUser(sirketAdı, id));
+		(this.employersDao.GetBySirketAdıAndUser(sirketAdı, id));
 	}
 
 }

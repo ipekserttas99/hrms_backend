@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import kodlamaio.hrms.business.abstracts.JobSeekersCheckService;
 import kodlamaio.hrms.core.verifications.abstracts.MernisVerificateService;
 import kodlamaio.hrms.entities.concretes.JobSeekers;
+
 @Service
 public class JobSeekersCheckManager implements JobSeekersCheckService{
 

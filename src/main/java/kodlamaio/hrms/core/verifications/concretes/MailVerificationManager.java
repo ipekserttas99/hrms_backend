@@ -22,7 +22,7 @@ public class MailVerificationManager implements MailVerificationService{
 
 	@Override
 	public Result verificate(User user) {
-		this.userDao.getByUserEmail(user.getEmail());
+		this.userDao.getByEmail(user.getEmail());
 		return new SuccessResult("Mail doğrulandı");
 	}
 

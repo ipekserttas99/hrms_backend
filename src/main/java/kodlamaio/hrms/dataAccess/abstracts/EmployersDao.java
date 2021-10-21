@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.Query;
 import kodlamaio.hrms.entities.concretes.Employers;
 
 public interface EmployersDao extends JpaRepository<Employers, Integer>{
-	Employers getByŞirketAdıAndWebSitesi(String sirketAdı, String webSitesi);
-	Employers getByŞirketAdıOrUser_Id(String sirketAdı, int id);
+	Employers getBySirketAdıAndWebSitesi(String sirketAdı, String webSitesi);
+	Employers getBySirketAdıOrUser_Id(String sirketAdı, int id);
 	
 	@Query("From Employers where sirketAdı=:sirketAdı and user.id=:id")
-	List<Employers> GetByŞirketAdıAndUser(String sirketAdı, int id);
+	List<Employers> GetBySirketAdıAndUser(String sirketAdı, int id);
 	
 }
