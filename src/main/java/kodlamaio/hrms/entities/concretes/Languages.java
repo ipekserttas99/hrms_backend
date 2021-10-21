@@ -1,17 +1,19 @@
 package kodlamaio.hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="yabancı_diller")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Languages {
 
 	@Id
@@ -19,8 +21,6 @@ public class Languages {
 	@Column(name="Id")
 	private int id;
 	
-	//@Column(name="UserId")
-	//private int userId;
 	
 	@Column(name="Dil")
 	private String dil;
@@ -28,20 +28,20 @@ public class Languages {
 	@Column(name="Seviye")
 	private String level;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="UserId", referencedColumnName = "Id")
-	private User user;
+	@ManyToOne
+	@JoinColumn(name="UserId")
+	private JobSeekers jobSeekers;
 
 	public Languages() {
 		
 	}
 
-	public Languages(int id, String dil, String level, User user) {
+	public Languages(int id, String dil, String level, JobSeekers jobSeekers) {
 		super();
 		this.id = id;
 		this.dil = dil;
 		this.level = level;
-		this.user = user;
+		this.jobSeekers = jobSeekers;
 	}
 
 	public int getId() {
@@ -68,12 +68,14 @@ public class Languages {
 		this.level = level;
 	}
 
-	public User getUser() {
-		return user;
+	public JobSeekers getJobSeekers() {
+		return jobSeekers;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setJobSeekers(JobSeekers jobSeekers) {
+		this.jobSeekers = jobSeekers;
 	}
+
+	
 	
 }

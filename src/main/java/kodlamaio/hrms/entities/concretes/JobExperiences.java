@@ -1,17 +1,20 @@
 package kodlamaio.hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name="iş_tecrübeleri")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class JobExperiences {
 
 	@Id
@@ -19,8 +22,6 @@ public class JobExperiences {
 	@Column(name="Id")
 	private int id;
 	
-	//@Column(name="UserId")
-	//private int userId;
 	
 	@Column(name="İşYeriAdı")
 	private String işYeriAdı;
@@ -34,22 +35,27 @@ public class JobExperiences {
 	@Column(name="BitişYıl")
 	private String bitişYıl;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id", referencedColumnName = "Id")
-	private User user;
+	@ManyToOne
+	@JoinColumn(name="Id")
+	private Cv cv;
+	
+	@ManyToOne
+	@JoinColumn(name="UserId")
+	private JobSeekers jobSeekers;
 
 	public JobExperiences() {
 		
 	}
 
-	public JobExperiences(int id, String işYeriAdı, String pozisyon, String başlangıçYıl, String bitişYıl, User user) {
+	public JobExperiences(int id, String işYeriAdı, String pozisyon, String başlangıçYıl, String bitişYıl, Cv cv, JobSeekers jobSeekers) {
 		super();
 		this.id = id;
 		this.işYeriAdı = işYeriAdı;
 		this.pozisyon = pozisyon;
 		this.başlangıçYıl = başlangıçYıl;
 		this.bitişYıl = bitişYıl;
-		this.user = user;
+		this.cv = cv;
+		this.jobSeekers = jobSeekers;
 	}
 
 	public int getId() {
@@ -85,20 +91,33 @@ public class JobExperiences {
 	}
 
 	public String getBitişYıl() {
-		return bitişYıl;
+		if(bitişYıl==null) {
+			return "Devam ediyor";
+		}
+		return bitişYıl.toString();
 	}
 
 	public void setBitişYıl(String bitişYıl) {
 		this.bitişYıl = bitişYıl;
 	}
 
-	public User getUser() {
-		return user;
+	public Cv getCv() {
+		return cv;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCv(Cv cv) {
+		this.cv = cv;
 	}
+
+	public JobSeekers getJobSeekers() {
+		return jobSeekers;
+	}
+
+	public void setJobSeekers(JobSeekers jobSeekers) {
+		this.jobSeekers = jobSeekers;
+	}
+
+	
 
 
 }

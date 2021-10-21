@@ -1,6 +1,6 @@
 package kodlamaio.hrms.entities.dtos;
 
-import kodlamaio.hrms.entities.concretes.User;
+import kodlamaio.hrms.core.entities.User;
 
 public class SkillsDto {
 	private int id;

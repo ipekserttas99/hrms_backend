@@ -1,17 +1,19 @@
 package kodlamaio.hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="yetenekler")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Skills {
 	
 	@Id
@@ -19,25 +21,27 @@ public class Skills {
 	@Column(name="Id")
 	private int id;
 	
-	//@Column(name="UserId")
-	//private int userId;
-	
 	@Column(name="TeknolojiAd")
 	private String yetenekAdı;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="UserId", referencedColumnName = "Id")
-	private User user;
+	@ManyToOne
+	@JoinColumn(name="UserId")
+	private JobSeekers jobSeekers;
+	
+	@ManyToOne
+	@JoinColumn(name="Id")
+	private Cv cv;
 
 	public Skills() {
 		
 	}
 
-	public Skills(int id, String yetenekAdı, User user) {
+	public Skills(int id, String yetenekAdı, JobSeekers jobSeekers, Cv cv) {
 		super();
 		this.id = id;
 		this.yetenekAdı = yetenekAdı;
-		this.user = user;
+		this.jobSeekers = jobSeekers;
+		this.cv = cv;
 	}
 
 	public int getId() {
@@ -56,12 +60,26 @@ public class Skills {
 		this.yetenekAdı = yetenekAdı;
 	}
 
-	public User getUser() {
-		return user;
+	public JobSeekers getJobSeekers() {
+		return jobSeekers;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setJobSeekers(JobSeekers jobSeekers) {
+		this.jobSeekers = jobSeekers;
 	}
+
+	public Cv getCv() {
+		return cv;
+	}
+
+	public void setCv(Cv cv) {
+		this.cv = cv;
+	}
+
+	public String getYetenekAdı() {
+		return yetenekAdı;
+	}
+
+	
 	
 }

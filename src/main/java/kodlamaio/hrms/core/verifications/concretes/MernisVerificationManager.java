@@ -1,22 +1,25 @@
 package kodlamaio.hrms.core.verifications.concretes;
 
 import java.rmi.RemoteException;
-import java.util.Locale;
+import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
 
-import kodlamaio.hrms.core.verifications.abstracts.MernisVerificateService;
-import kodlamaio.hrms.entities.concretes.JobSeekers;
+public class MernisVerificationManager {
 
-public class MernisVerificationManager implements MernisVerificateService{
-
-	@Override
-	public boolean checkIfRealPerson(JobSeekers jobSeekers) {
-		tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy client = new tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy();
+	
+	public boolean checkIfRealPerson(String tcNo, String ad, String soyad, String dogumYılı) {
+		KPSPublicSoapProxy kpsPublicSoapProxy = new KPSPublicSoapProxy();
+		boolean result = false;
+		
 		try {
-			return client.TCKimlikNoDogrula(Long.parseLong(jobSeekers.getTcNo()),
-					jobSeekers.getAd().toUpperCase(new Locale("tr")),
-					jobSeekers.getSoyad().toUpperCase(new Locale("tr")), Integer.parseInt(jobSeekers.getDogumYılı()));
-		} catch (RemoteException e) {
+			result = kpsPublicSoapProxy.TCKimlikNoDogrula
+					(Long.parseLong(tcNo), 
+					ad.toUpperCase(), 
+					soyad.toUpperCase(), 
+					Integer.parseInt(dogumYılı));
+		} catch (NumberFormatException e) {
 			
+			e.printStackTrace();
+		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		return true;

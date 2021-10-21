@@ -2,21 +2,20 @@ package kodlamaio.hrms.entities.concretes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import kodlamaio.hrms.core.entities.User;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name="iş_arayanlar")
-public class JobSeekers {
-	
-	@Id
-	@GeneratedValue
-//	@Column(name="UserId")
-//	private int userId;
+@EqualsAndHashCode(callSuper = true)
+@PrimaryKeyJoinColumn(name = "UserId", referencedColumnName = "Id")
+public class JobSeekers extends User{
 	
 	@Column(name="Ad")
 	private String ad;

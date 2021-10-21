@@ -2,21 +2,18 @@ package kodlamaio.hrms.entities.concretes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import kodlamaio.hrms.core.entities.User;
+
 @Entity
+@PrimaryKeyJoinColumn(name = "UserId", referencedColumnName = "Id")
 @Table(name="iş_verenler")
-public class Employers {
-	
-	@Id
-	@GeneratedValue
-	//@Column(name="UserId")
-	//private int userId;
+public class Employers extends User{
 	
 	@Column(name="ŞirketAdı")
 	private String sirketAdı;

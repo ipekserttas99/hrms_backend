@@ -1,17 +1,20 @@
 package kodlamaio.hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="sosyal_medyalar")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class SocialMedias {
 
 	@Id
@@ -19,29 +22,31 @@ public class SocialMedias {
 	@Column(name="Id")
 	private int id;
 	
-	//@Column(name="UserId")
-	//private int userId;
-	
 	@Column(name="GithubLink")
 	private String githubLink;
 	
 	@Column(name="LinkedinLink")
 	private String linkedinLink;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="UserId", referencedColumnName = "Id")
-	private User user;
+	@OneToOne
+	@JoinColumn(name="UserId")
+	private JobSeekers jobSeekers;
+	
+	@ManyToOne
+	@JoinColumn(name="Id")
+	private Cv cv;
 
 	public SocialMedias() {
 		
 	}
 
-	public SocialMedias(int id, String githubLink, String linkedinLink, User user) {
+	public SocialMedias(int id, String githubLink, String linkedinLink, JobSeekers jobSeekers, Cv cv) {
 		super();
 		this.id = id;
 		this.githubLink = githubLink;
 		this.linkedinLink = linkedinLink;
-		this.user = user;
+		this.jobSeekers = jobSeekers;
+		this.cv = cv;
 	}
 
 	public int getId() {
@@ -68,13 +73,23 @@ public class SocialMedias {
 		this.linkedinLink = linkedinLink;
 	}
 
-	public User getUser() {
-		return user;
+	public JobSeekers getJobSeekers() {
+		return jobSeekers;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setJobSeekers(JobSeekers jobSeekers) {
+		this.jobSeekers = jobSeekers;
 	}
+
+	public Cv getCv() {
+		return cv;
+	}
+
+	public void setCv(Cv cv) {
+		this.cv = cv;
+	}
+
+	
 	
 	
 }

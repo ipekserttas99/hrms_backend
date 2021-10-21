@@ -5,7 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +16,8 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import kodlamaio.hrms.core.entities.User;
+
 @Entity
 @Table(name="cv")
 @JsonIgnoreProperties({ "HybernateLazyInitializer", "handler", "cv" })
@@ -27,7 +28,7 @@ public class Cv {
 	@Column(name="Id")
 	private int id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="UserId", referencedColumnName = "Id")
 	private User user;
 
@@ -36,27 +37,27 @@ public class Cv {
 	private JobSeekers jobSeekers;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "cv")
+	@OneToMany(mappedBy = "cv")
 	private List<SocialMedias> socialMedias;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumVitae")
+	@OneToMany(mappedBy = "cv")
 	private List<Pictures> pictures;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumVitae")
+	@OneToMany(mappedBy = "cv")
 	private List<Schools> schools;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumVitae")
+	@OneToMany(mappedBy = "cv")
 	private List<Languages> languages;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumVitae")
+	@OneToMany(mappedBy = "cv")
 	private List<Skills> skills;
 	
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "curriculumVitae")
+	@OneToMany(mappedBy = "cv")
 	private List<JobExperiences> jobExperiences;
 	
 	public Cv() {

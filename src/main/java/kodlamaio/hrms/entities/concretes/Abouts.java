@@ -1,17 +1,19 @@
 package kodlamaio.hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="hakkındalar")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Abouts {
 
 	@Id
@@ -25,19 +27,19 @@ public class Abouts {
 	@Column(name="ÖnYazı")
 	private String önYazı;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="UserId", referencedColumnName = "Id")
-	private User user;
+	@ManyToOne
+	@JoinColumn(name="UserId")
+	private JobSeekers jobSeekers;
 
 	public Abouts() {
 		
 	}
 
-	public Abouts(int id, String önYazı, User user) {
+	public Abouts(int id, String önYazı, JobSeekers jobSeekers) {
 		super();
 		this.id = id;
 		this.önYazı = önYazı;
-		this.user = user;
+		this.jobSeekers = jobSeekers;
 	}
 
 	public int getId() {
@@ -56,13 +58,15 @@ public class Abouts {
 		this.önYazı = önYazı;
 	}
 
-	public User getUser() {
-		return user;
+	public JobSeekers getJobSeekers() {
+		return jobSeekers;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setJobSeekers(JobSeekers jobSeekers) {
+		this.jobSeekers = jobSeekers;
 	}
+
+	
 	
 	
 }

@@ -2,6 +2,7 @@ package kodlamaio.hrms.entities.dtos;
 
 import java.util.List;
 
+import kodlamaio.hrms.core.entities.User;
 import kodlamaio.hrms.entities.concretes.JobExperiences;
 import kodlamaio.hrms.entities.concretes.JobSeekers;
 import kodlamaio.hrms.entities.concretes.Languages;
@@ -9,11 +10,10 @@ import kodlamaio.hrms.entities.concretes.Pictures;
 import kodlamaio.hrms.entities.concretes.Schools;
 import kodlamaio.hrms.entities.concretes.Skills;
 import kodlamaio.hrms.entities.concretes.SocialMedias;
-import kodlamaio.hrms.entities.concretes.User;
 
 public class CvDto {
 	private int id;
-	private User user;
+	private kodlamaio.hrms.core.entities.User user;
 	private JobSeekers jobSeekers;
 	private List<SocialMedias> socialMedias;
 	private List<Pictures> pictures;

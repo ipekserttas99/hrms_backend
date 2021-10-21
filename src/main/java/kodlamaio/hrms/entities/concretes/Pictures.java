@@ -1,6 +1,5 @@
 package kodlamaio.hrms.entities.concretes;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import kodlamaio.hrms.core.entities.User;
+
 @Entity
 @Table(name="fotoğraflar")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Pictures {
 	
 	@Id
@@ -19,14 +23,11 @@ public class Pictures {
 	@Column(name="Id")
 	private int id;
 	
-	//@Column(name="UserId")
-	//private int userId;
-	
 	@Column(name="Fotoğraf")
 	private String fotoğrafUrl;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="UserId", referencedColumnName = "Id")
+	@OneToOne
+	@JoinColumn(name="UserId")
 	private User user;
 
 	public Pictures() {

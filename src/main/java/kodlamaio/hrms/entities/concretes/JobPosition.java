@@ -2,17 +2,19 @@ package kodlamaio.hrms.entities.concretes;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="iş_pozisyonları")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class JobPosition {
 	
 	@Id
@@ -44,16 +46,20 @@ public class JobPosition {
 	@Column(name="AktifMi")
 	private boolean aktifMi;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="user_id", referencedColumnName = "Id")
-	private User user;
+	@ManyToOne
+	@JoinColumn(name="UserId")
+	private Employers employers;
+	
+	@ManyToOne
+	@JoinColumn(name="UserId")
+	private JobSeekers jobSeekers;
 	
 	public JobPosition() {
 		
 	}
 
 	public JobPosition(int id, String pozisyonAd, String pozisyonTanım, String sehir, String maaş, Date yayınTarihi,
-			Date sonBaşvuruTarihi, String firma, User user) {
+			Date sonBaşvuruTarihi, String firma, Employers employers, JobSeekers jobSeekers) {
 		super();
 		this.id = id;
 		this.pozisyonAd = pozisyonAd;
@@ -63,7 +69,8 @@ public class JobPosition {
 		this.yayınTarihi = yayınTarihi;
 		this.sonBaşvuruTarihi = sonBaşvuruTarihi;
 		this.firma = firma;
-		this.user = user;
+		this.employers = employers;
+		this.jobSeekers = jobSeekers;
 	}
 
 	public int getId() {
@@ -130,13 +137,31 @@ public class JobPosition {
 		this.firma = firma;
 	}
 
-	public User getUser() {
-		return user;
+	public boolean isAktifMi() {
+		return aktifMi;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setAktifMi(boolean aktifMi) {
+		this.aktifMi = aktifMi;
 	}
+
+	public Employers getEmployers() {
+		return employers;
+	}
+
+	public void setEmployers(Employers employers) {
+		this.employers = employers;
+	}
+
+	public JobSeekers getJobSeekers() {
+		return jobSeekers;
+	}
+
+	public void setJobSeekers(JobSeekers jobSeekers) {
+		this.jobSeekers = jobSeekers;
+	}
+
+	
 	
 
 	

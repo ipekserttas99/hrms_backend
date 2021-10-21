@@ -2,21 +2,18 @@ package kodlamaio.hrms.entities.concretes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import kodlamaio.hrms.core.entities.User;
 
 @Entity
 @Table(name="sistem_personelleri")
-public class SystemStaff {
-	
-	@Id
-	@GeneratedValue
-	//@Column(name="UserId")
-	//private int userId;
+@PrimaryKeyJoinColumn(name = "UserId", referencedColumnName = "Id")
+public class SystemStaff extends User{
 	
 	@Column(name="PersonalAd")
 	private String personalAd;
@@ -33,22 +30,12 @@ public class SystemStaff {
 	private User user;
 
 	public SystemStaff(String personalAd, String personalSoyad, String personalTitle, User user) {
-		//int userId, 
 		super();
-		//this.userId = userId;
 		this.personalAd = personalAd;
 		this.personalSoyad = personalSoyad;
 		this.personalTitle = personalTitle;
 		this.user = user;
 	}
-
-//	public int getUserId() {
-//		return userId;
-//	}
-//
-//	public void setUserId(int userId) {
-//		this.userId = userId;
-//	}
 
 	public String getPersonalAd() {
 		return personalAd;
