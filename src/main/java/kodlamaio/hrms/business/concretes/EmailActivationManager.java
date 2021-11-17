@@ -65,7 +65,7 @@ public class EmailActivationManager extends BaseManager<EmailActivationDao, Emai
 		emailActivation.get().setActivated(true);
 		emailActivationDao.save(emailActivation.get());
 
-		return new SuccessResult(ahmetcetinkaya.HRMSProjectBackend.core.business.constants.Messages.verified("Email"));
+		return new SuccessResult(kodlamaio.hrms.core.business.constants.Messages.verified("Email"));
 	}
 	
 	

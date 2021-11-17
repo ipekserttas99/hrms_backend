@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 
 import kodlamaio.hrms.core.entities.User;
 import lombok.*;
+
 @Data
 @NoArgsConstructor
 @ToString
@@ -15,6 +16,8 @@ import lombok.*;
 @Entity
 @Table(name = "company_staffs")
 @PrimaryKeyJoinColumn(name = "user_id")
+
+
 public class CompanyStaff extends User {
 	@NotBlank
 	@Size(max = 50)
@@ -34,20 +37,5 @@ public class CompanyStaff extends User {
 		this.lastName = lastName;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
 	
 }

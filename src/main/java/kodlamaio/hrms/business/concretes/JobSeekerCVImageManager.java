@@ -32,12 +32,13 @@ public class JobSeekerCVImageManager extends BaseManager<JobSeekerCVImageDao, Jo
 	}
 
 	@Override
-	public Result addAndSave(JobSeekerCVImage jobSeekerImage, MultipartFile file) {
+	public Result addAndSave(final JobSeekerCVImage jobSeekerCVImage, final MultipartFile file) {
 		final Image result = imageService.save(file).getData();
 		jobSeekerCVImage.setUrl(result.getUrl());
 
 		return super.add(jobSeekerCVImage);
 	}
+
 	@Override
 	public Result delete(final Integer id) {
 		final Optional<JobSeekerCVImage> jobSeekerCVImage = jobSeekerCVImageDao.findById(id);
@@ -51,8 +52,9 @@ public class JobSeekerCVImageManager extends BaseManager<JobSeekerCVImageDao, Jo
 		jobSeekerCVImageDao.delete(jobSeekerCVImage.get());
 		return new SuccessResult(Messages.deleted("Job seeker CV Image"));
 	}
+
 	@Override
-	public DataResult<List<JobSeekerCVImage>> getAllByJobSeekerCV_Id(int jobSeekerCVId) {
+	public DataResult<List<JobSeekerCVImage>> getAllByJobSeekerCV_Id(final int jobSeekerCVId) {
 		final List<JobSeekerCVImage> jobSeekerCVImages = jobSeekerCVImageDao.findAllByJobSeekerCV_Id(jobSeekerCVId);
 
 		return new SuccessDataResult<>(jobSeekerCVImages);
