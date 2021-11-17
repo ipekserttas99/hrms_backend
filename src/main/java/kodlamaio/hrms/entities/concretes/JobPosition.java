@@ -1,169 +1,42 @@
 package kodlamaio.hrms.entities.concretes;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@ToString
+@EqualsAndHashCode
 @Entity
-@Table(name="iş_pozisyonları")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@Table(name = "job_positions")
 public class JobPosition {
-	
+	@NotNull
+	@Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
+	private final LocalDateTime createdAt = LocalDateTime.now();
+
+	@Column(name = "id")
 	@Id
-	@GeneratedValue
-	@Column(name="Id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name="PozisyonAd")
-	private String pozisyonAd;
-	
-	@Column(name="PozisyonTanım")
-	private String pozisyonTanım;
-	
-	@Column(name="Şehir")
-	private String sehir;
-	
-	@Column(name="Maaş")
-	private String maaş;
-	
-	@Column(name="YayınTarihi")
-	private Date yayınTarihi;
-	
-	@Column(name="SonBaşvuruTarihi")
-	private Date sonBaşvuruTarihi;
-	
-	@Column(name="Firma")
-	private String firma;
-	
-	@Column(name="AktifMi")
-	private boolean aktifMi;
-	
-	@ManyToOne
-	@JoinColumn(name="UserId")
-	private Employers employers;
-	
-	@ManyToOne
-	@JoinColumn(name="UserId")
-	private JobSeekers jobSeekers;
-	
-	public JobPosition() {
-		
-	}
 
-	public JobPosition(int id, String pozisyonAd, String pozisyonTanım, String sehir, String maaş, Date yayınTarihi,
-			Date sonBaşvuruTarihi, String firma, Employers employers, JobSeekers jobSeekers) {
-		super();
-		this.id = id;
-		this.pozisyonAd = pozisyonAd;
-		this.pozisyonTanım = pozisyonTanım;
-		this.sehir = sehir;
-		this.maaş = maaş;
-		this.yayınTarihi = yayınTarihi;
-		this.sonBaşvuruTarihi = sonBaşvuruTarihi;
-		this.firma = firma;
-		this.employers = employers;
-		this.jobSeekers = jobSeekers;
-	}
+	@NotBlank
+	@Size(max = 50)
+	@Column(name = "title")
+	private String title;
 
-	public int getId() {
-		return id;
-	}
+	@NotNull
+	@Column(name = "is_active", columnDefinition = "boolean default true")
+	private boolean isActive = true;
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getPozisyonAd() {
-		return pozisyonAd;
-	}
-
-	public void setPozisyonAd(String pozisyonAd) {
-		this.pozisyonAd = pozisyonAd;
-	}
-
-	public String getPozisyonTanım() {
-		return pozisyonTanım;
-	}
-
-	public void setPozisyonTanım(String pozisyonTanım) {
-		this.pozisyonTanım = pozisyonTanım;
-	}
-
-	public String getSehir() {
-		return sehir;
-	}
-
-	public void setSehir(String sehir) {
-		this.sehir = sehir;
-	}
-
-	public String getMaaş() {
-		return maaş;
-	}
-
-	public void setMaaş(String maaş) {
-		this.maaş = maaş;
-	}
-
-	public Date getYayınTarihi() {
-		return yayınTarihi;
-	}
-
-	public void setYayınTarihi(Date yayınTarihi) {
-		this.yayınTarihi = yayınTarihi;
-	}
-
-	public Date getSonBaşvuruTarihi() {
-		return sonBaşvuruTarihi;
-	}
-
-	public void setSonBaşvuruTarihi(Date sonBaşvuruTarihi) {
-		this.sonBaşvuruTarihi = sonBaşvuruTarihi;
-	}
-
-	public String getFirma() {
-		return firma;
-	}
-
-	public void setFirma(String firma) {
-		this.firma = firma;
-	}
-
-	public boolean isAktifMi() {
-		return aktifMi;
-	}
-
-	public void setAktifMi(boolean aktifMi) {
-		this.aktifMi = aktifMi;
-	}
-
-	public Employers getEmployers() {
-		return employers;
-	}
-
-	public void setEmployers(Employers employers) {
-		this.employers = employers;
-	}
-
-	public JobSeekers getJobSeekers() {
-		return jobSeekers;
-	}
-
-	public void setJobSeekers(JobSeekers jobSeekers) {
-		this.jobSeekers = jobSeekers;
-	}
-
-	
-	
-
-	
-	
+	@NotNull
+	@Column(name = "is_deleted", columnDefinition = "boolean default false")
+	private boolean isDeleted = false;
 }

@@ -1,53 +1,77 @@
 package kodlamaio.hrms.api.controllers;
 
-import java.util.List;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import kodlamaio.hrms.business.abstracts.JobSeekersService;
+import kodlamaio.hrms.business.abstracts.JobSeekerService;
+import kodlamaio.hrms.core.api.abstracts.BaseController;
 import kodlamaio.hrms.core.utilities.results.DataResult;
 import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.entities.concretes.JobSeekers;
+import kodlamaio.hrms.entities.concretes.JobSeeker;
+import kodlamaio.hrms.entities.concretes.JobSeekersFavoriteJobAdvert;
+import kodlamaio.hrms.entities.dtos.JobSeekerForRegisterDto;
 
 @RestController
 @RequestMapping("/api/jobseekers")
-public class JobSeekersController {
-	
-	private JobSeekersService jobSeekersService;
+public class JobSeekersController extends BaseController<JobSeekerService, JobSeeker, Integer> {
+	private final JobSeekerService jobSeekerService;
 
 	@Autowired
-	public JobSeekersController(JobSeekersService jobSeekersService) {
-		this.jobSeekersService = jobSeekersService;
+	public JobSeekersController(final JobSeekerService jobSeekerService) {
+		super(jobSeekerService);
+		this.jobSeekerService = jobSeekerService;
 	}
-	
-	@GetMapping("/getall")
-	public DataResult<List<JobSeekers>> getAll(){
-		return this.jobSeekersService.getAll();
+
+	@PostMapping("/register")
+	public ResponseEntity<Result> register(@Valid @RequestBody final JobSeekerForRegisterDto jobSeekerForRegisterDto) {
+		final Result result = jobSeekerService.register(jobSeekerForRegisterDto);
+
+		if (!result.isSuccess())
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+		return ResponseEntity.ok(result);
 	}
-	
-	
-	@PostMapping("/add")
-	public Result add(@RequestBody JobSeekers jobSeekers) {
-		return this.jobSeekersService.add(jobSeekers);
+
+	@GetMapping({ "/favorite/jobadvert/byjobseekeridandjobadvertid" })
+	public ResponseEntity<DataResult<JobSeekersFavoriteJobAdvert>> getByJobSeekerIdAndJobAdvertId(
+			@RequestParam final int jobSeekerId, @RequestParam final int jobAdvertId) {
+		DataResult<JobSeekersFavoriteJobAdvert> result = this.jobSeekerService
+				.getFavoriteByJobSeekerIdAndJobAdvertId(jobSeekerId, jobAdvertId);
+
+		if (!result.isSuccess())
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+		return ResponseEntity.ok(result);
 	}
-	
-	@GetMapping("/getByAdAndSoyad")
-	public DataResult<JobSeekers> getByAdAndSoyad(String ad, String soyad) {
-		return this.jobSeekersService.getByAdAndSoyad(ad, soyad);
+
+	@PostMapping({ "/favorite/jobadvert" })
+	public ResponseEntity<Result> favoriteJobAdvert(
+			@RequestBody final JobSeekersFavoriteJobAdvert jobSeekersFavoriteJobAdvert) {
+		Result result = this.jobSeekerService.favoriteJobAdvert(jobSeekersFavoriteJobAdvert);
+
+		if (!result.isSuccess())
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+		return ResponseEntity.ok(result);
 	}
-	
-	@GetMapping("/getByTcNoContains")
-	public DataResult<List<JobSeekers>> getByTcNoContains(String tcNo) {
-		return this.jobSeekersService.getByTcNoContains(tcNo);
-	}
-	
-	@GetMapping("/GetByAdAndUser")
-	public DataResult<List<JobSeekers>> GetByAdAndUser(String ad, int id) {
-		return this.jobSeekersService.GetByAdAndUser(ad, id);
+
+	@DeleteMapping({ "/favorite/jobadvert" })
+	public ResponseEntity<Result> undoFavoriteJobAdvert(@RequestParam final int jobSeekersFavoriteJobAdvertId) {
+		Result result = this.jobSeekerService.undoFavoriteJobAdvert(jobSeekersFavoriteJobAdvertId);
+
+		if (!result.isSuccess())
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+
+		return ResponseEntity.ok(result);
 	}
 }

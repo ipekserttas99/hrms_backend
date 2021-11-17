@@ -1,92 +1,59 @@
 package kodlamaio.hrms.core.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import java.time.LocalDateTime;
+
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.*;
+
+@Data
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 @Entity
-@Table(name="kullanıcılar")
+@Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","kullanıcılar"})
 public class User {
-
+	@NotNull
+	@Column(name = "created_at", columnDefinition = "Date default CURRENT_DATE")
+	private final LocalDateTime createdAt = LocalDateTime.now();
+	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="Id")
 	private int id;
-	
-	@Email(message = "Lütfen geçerli bir e-posta adresi giriniz.")
-	@NotNull(message = "E-posta alanı boş geçilemez.")
-	@NotBlank(message = "E-posta alanı boş geçilemez.")
-	@Column(name = "Email", unique = true)
+
+	@NotBlank
+	@Email
+	@Size(max = 100)
+	@Column(name = "email")
 	private String email;
-	
-	@NotNull(message = "Parola alanı boş geçilemez.")
-	@NotBlank(message = "Parola alanı boş geçilemez.")
-	@Column(name = "Password")
+
+	@NotBlank
+	@Size(max = 100)
+	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 
-	@NotNull(message = "Parola tekrar alanı boş geçilemez.")
-	@NotBlank(message = "Parola tekrar alanı boş geçilemez.")
-	@Column(name = "PasswordAgain")
-	private String passwordAgain;
+	@NotNull
+	@Column(name = "is_active", columnDefinition = "boolean default true")
+	private boolean isActive = true;
 
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	@NotNull
+	@Column(name = "is_deleted", columnDefinition = "boolean default false")
+	private boolean isDeleted = false;
 
-	public User(int id,
-			@Email(message = "Lütfen geçerli bir e-posta adresi giriniz.") @NotNull(message = "E-posta alanı boş geçilemez.") @NotBlank(message = "E-posta alanı boş geçilemez.") String email,
-			@NotNull(message = "Parola alanı boş geçilemez.") @NotBlank(message = "Parola alanı boş geçilemez.") String password,
-			@NotNull(message = "Parola tekrar alanı boş geçilemez.") @NotBlank(message = "Parola tekrar alanı boş geçilemez.") String passwordAgain) {
-		super();
+	@Builder
+	public User(final int id, @NotBlank @Email @Size(max = 100) final String email,
+			@NotBlank @Size(max = 100) final String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
-		this.passwordAgain = passwordAgain;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getPasswordAgain() {
-		return passwordAgain;
-	}
-
-	public void setPasswordAgain(String passwordAgain) {
-		this.passwordAgain = passwordAgain;
 	}
 
 }

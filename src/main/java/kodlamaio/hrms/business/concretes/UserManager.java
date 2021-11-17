@@ -1,69 +1,40 @@
 package kodlamaio.hrms.business.concretes;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import kodlamaio.hrms.business.abstracts.UserService;
-import kodlamaio.hrms.core.dataAccess.UserDao;
+import kodlamaio.hrms.core.business.abstracts.BaseManager;
+import kodlamaio.hrms.core.business.constants.Messages;
 import kodlamaio.hrms.core.entities.User;
-import kodlamaio.hrms.core.utilities.results.DataResult;
-import kodlamaio.hrms.core.utilities.results.Result;
-import kodlamaio.hrms.core.utilities.results.SuccessDataResult;
-import kodlamaio.hrms.core.utilities.results.SuccessResult;
-
+import kodlamaio.hrms.core.utilities.results.*;
+import kodlamaio.hrms.dataAccess.abstracts.UserDao;
 
 @Service
-public class UserManager implements UserService{
+public class UserManager extends BaseManager<UserDao, User, Integer> implements UserService{
+	private final UserDao userDao;
 
-	private UserDao userDao;
-	
 	@Autowired
-	public UserManager(UserDao userDao) {
-		super();
+	public UserManager(final UserDao userDao) {
+		super(userDao, "User");
 		this.userDao = userDao;
 	}
 
-	
 	@Override
-	public DataResult<List<User>> getAll() {
-		
-		return new SuccessDataResult<List<User>>
-		(this.userDao.findAll(),"Data listelendi");
+	public DataResult<User> getByEmail(String email) {
+		final Optional<User> user = userDao.findByEmail(email);
+
+		if (user.isEmpty())
+			return new ErrorDataResult<>(Messages.notFound("User"));
+
+		return new SuccessDataResult<>(user.get());
 	}
 
-
 	@Override
-	public Result add(User user) {
-		this.userDao.save(user);
-		return new SuccessResult("Ürün eklendi");
+	public Result isNotEmailExist(String email) {
+		return userDao.findByEmail(email).isEmpty() ? new SuccessResult()
+				: new ErrorResult(Messages.verified("A user with the mail"));
 	}
-
-
-	@Override
-	public DataResult<List<User>> getAllSorted() {
-		Sort sort = Sort.by(Sort.Direction.DESC, "email");
-		return new SuccessDataResult<List<User>>
-		(this.userDao.findAll(sort),"Başarılı");
-	}
-
-
-	@Override
-	public DataResult<List<User>> getAll(int pageNo, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
-		return new SuccessDataResult<List<User>>
-		(this.userDao.findAll(pageable).getContent());
-	}
-
-
-	@Override
-	public DataResult<User> getByUserEmail(String email) {
-		return new SuccessDataResult<User>
-		(this.userDao.getByEmail(email),"Data listelendi");
-	}
-
 }
